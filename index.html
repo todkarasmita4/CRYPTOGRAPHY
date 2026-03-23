@@ -1,94 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Crypto Visual Lab</title>
-  <style>
-    body {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: white;
-      font-family: Arial;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      margin-bottom: 10px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 12px;
-      margin: auto;
-      width: 320px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    }
-
-    input, select {
-      width: 90%;
-      padding: 10px;
-      margin: 8px;
-      border-radius: 6px;
-      border: none;
-    }
-
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #22c55e;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #16a34a;
-    }
-
-    .output {
-      margin-top: 15px;
-      padding: 10px;
-      background: #0f172a;
-      border-radius: 6px;
-    }
-
-    .steps {
-      margin-top: 10px;
-      font-size: 14px;
-      text-align: left;
-    }
-  </style>
-</head>
-
-<body>
-
 <h1>🔐 Crypto Visual Lab</h1>
-<p>Learn encryption step-by-step</p>
 
 <div class="card">
 
+<h3>🎯 Challenge</h3>
+<p id="challenge"></p>
+
 <select id="cipher">
-  <option value="caesar">Caesar Cipher</option>
-  <option value="vigenere">Vigenère Cipher</option>
+  <option value="caesar">Caesar</option>
+  <option value="vigenere">Vigenere</option>
+  <option value="playfair">Playfair</option>
   <option value="rail">Rail Fence</option>
+  <option value="rowcol">Row-Column</option>
+  <option value="rsa">RSA</option>
+  <option value="diffie">Diffie-Hellman</option>
 </select>
 
 <input id="text" placeholder="Enter text">
 <input id="key" placeholder="Enter key">
 
-<button onclick="process()">Encrypt</button>
+<button onclick="process()">Run</button>
+<button onclick="checkAnswer()">Check</button>
 
 <div class="output">
   <b>Result:</b>
   <p id="result"></p>
 </div>
 
-<div class="steps" id="steps"></div>
+<p id="steps"></p>
+
+<hr>
+
+<h3>🏆 Score: <span id="score">0</span></h3>
+<h4>🔥 Streak: <span id="streak">0</span></h4>
+
+<p id="feedback"></p>
 
 </div>
 
 <script>
+let score = 0;
+let streak = 0;
+let correctAnswer = "";
+
+function newChallenge() {
+  let words = ["HELLO", "WORLD", "CRYPTO", "SECURE"];
+  let randomWord = words[Math.floor(Math.random() * words.length)];
+  document.getElementById("challenge").innerText =
+    "Encrypt: " + randomWord + " using Caesar (key = 3)";
+  correctAnswer = caesarEncrypt(randomWord, 3);
+}
+
+function caesarEncrypt(text, shift) {
+  let result = "";
+  for (let i = 0; i < text.length; i++) {
+    let c = text.charCodeAt(i);
+    result += String.fromCharCode((c - 65 + shift) % 26 + 65);
+  }
+  return result;
+}
+
 function process() {
   let type = document.getElementById("cipher").value;
   let text = document.getElementById("text").value;
@@ -96,75 +66,62 @@ function process() {
   let result = "";
   let steps = "";
 
-  // CAESAR
   if (type === "caesar") {
-    let shift = parseInt(key) || 0;
-
-    for (let i = 0; i < text.length; i++) {
-      let c = text.charCodeAt(i);
-
-      if (c >= 65 && c <= 90) {
-        let newChar = String.fromCharCode((c - 65 + shift) % 26 + 65);
-        result += newChar;
-        steps += text[i] + " → " + newChar + " (+" + shift + ")<br>";
-      } 
-      else if (c >= 97 && c <= 122) {
-        let newChar = String.fromCharCode((c - 97 + shift) % 26 + 97);
-        result += newChar;
-        steps += text[i] + " → " + newChar + " (+" + shift + ")<br>";
-      } 
-      else {
-        result += text[i];
-      }
-    }
+    result = caesarEncrypt(text.toUpperCase(), parseInt(key) || 0);
+    steps = "Shifted letters by key";
   }
 
-  // VIGENERE
   if (type === "vigenere") {
-    key = key.toLowerCase();
-    let j = 0;
-
-    for (let i = 0; i < text.length; i++) {
-      if (text[i].match(/[a-z]/i)) {
-        let shift = key.charCodeAt(j % key.length) - 97;
-        let base = text[i] === text[i].toUpperCase() ? 65 : 97;
-
-        let newChar = String.fromCharCode(
-          (text.charCodeAt(i) - base + shift) % 26 + base
-        );
-
-        result += newChar;
-        steps += text[i] + " → " + newChar + " (shift " + shift + ")<br>";
-        j++;
-      } else {
-        result += text[i];
-      }
-    }
+    result = "Demo Output";
+    steps = "Polyalphabetic cipher";
   }
 
-  // RAIL FENCE
+  if (type === "playfair") {
+    result = text.split("").reverse().join("");
+    steps = "Pair substitution demo";
+  }
+
   if (type === "rail") {
-    let rails = parseInt(key) || 2;
-    let fence = Array.from({ length: rails }, () => []);
+    result = "Rail Fence Demo";
+    steps = "Zig-zag encryption";
+  }
 
-    let dir = 1, row = 0;
+  if (type === "rowcol") {
+    result = "Matrix Transposition Demo";
+    steps = "Row-column logic";
+  }
 
-    for (let char of text) {
-      fence[row].push(char);
-      row += dir;
+  if (type === "rsa") {
+    result = "Public Key (3,33)";
+    steps = "Asymmetric encryption";
+  }
 
-      if (row === 0 || row === rails - 1) dir *= -1;
-    }
-
-    result = fence.flat().join("");
-
-    steps = "Zig-zag pattern used across " + rails + " rails.";
+  if (type === "diffie") {
+    result = "Shared Key: 2";
+    steps = "Key exchange";
   }
 
   document.getElementById("result").innerText = result;
-  document.getElementById("steps").innerHTML = steps;
+  document.getElementById("steps").innerText = steps;
 }
-</script>
 
-</body>
-</html>
+function checkAnswer() {
+  let user = document.getElementById("result").innerText;
+
+  if (user === correctAnswer) {
+    score += 10;
+    streak++;
+    document.getElementById("feedback").innerText = "✅ Correct!";
+  } else {
+    streak = 0;
+    document.getElementById("feedback").innerText = "❌ Try again!";
+  }
+
+  document.getElementById("score").innerText = score;
+  document.getElementById("streak").innerText = streak;
+
+  newChallenge();
+}
+
+newChallenge();
+</script>
