@@ -1,127 +1,35 @@
-<h1>🔐 Crypto Visual Lab</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CryptoQuest</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-<div class="card">
+<body>
 
-<h3>🎯 Challenge</h3>
-<p id="challenge"></p>
+<h1>🎮 CryptoQuest</h1>
+<p>Crack the cipher and score points!</p>
 
-<select id="cipher">
-  <option value="caesar">Caesar</option>
-  <option value="vigenere">Vigenere</option>
-  <option value="playfair">Playfair</option>
-  <option value="rail">Rail Fence</option>
-  <option value="rowcol">Row-Column</option>
-  <option value="rsa">RSA</option>
-  <option value="diffie">Diffie-Hellman</option>
-</select>
+<div class="game-box">
+  <h3 id="question">Loading...</h3>
 
-<input id="text" placeholder="Enter text">
-<input id="key" placeholder="Enter key">
+  <input id="answer" placeholder="Enter encrypted text">
 
-<button onclick="process()">Run</button>
-<button onclick="checkAnswer()">Check</button>
+  <button onclick="checkAnswer()">Submit</button>
 
-<div class="output">
-  <b>Result:</b>
-  <p id="result"></p>
+  <p id="feedback"></p>
+
+  <h4>🏆 Score: <span id="score">0</span></h4>
 </div>
 
-<p id="steps"></p>
+<script src="ciphers/caesar.js"></script>
+<script src="ciphers/vigenere.js"></script>
+<script src="ciphers/railfence.js"></script>
+<script src="ciphers/playfair.js"></script>
+<script src="ciphers/rsa.js"></script>
+<script src="ciphers/diffie.js"></script>
 
-<hr>
+<script src="script.js"></script>
 
-<h3>🏆 Score: <span id="score">0</span></h3>
-<h4>🔥 Streak: <span id="streak">0</span></h4>
-
-<p id="feedback"></p>
-
-</div>
-
-<script>
-let score = 0;
-let streak = 0;
-let correctAnswer = "";
-
-function newChallenge() {
-  let words = ["HELLO", "WORLD", "CRYPTO", "SECURE"];
-  let randomWord = words[Math.floor(Math.random() * words.length)];
-  document.getElementById("challenge").innerText =
-    "Encrypt: " + randomWord + " using Caesar (key = 3)";
-  correctAnswer = caesarEncrypt(randomWord, 3);
-}
-
-function caesarEncrypt(text, shift) {
-  let result = "";
-  for (let i = 0; i < text.length; i++) {
-    let c = text.charCodeAt(i);
-    result += String.fromCharCode((c - 65 + shift) % 26 + 65);
-  }
-  return result;
-}
-
-function process() {
-  let type = document.getElementById("cipher").value;
-  let text = document.getElementById("text").value;
-  let key = document.getElementById("key").value;
-  let result = "";
-  let steps = "";
-
-  if (type === "caesar") {
-    result = caesarEncrypt(text.toUpperCase(), parseInt(key) || 0);
-    steps = "Shifted letters by key";
-  }
-
-  if (type === "vigenere") {
-    result = "Demo Output";
-    steps = "Polyalphabetic cipher";
-  }
-
-  if (type === "playfair") {
-    result = text.split("").reverse().join("");
-    steps = "Pair substitution demo";
-  }
-
-  if (type === "rail") {
-    result = "Rail Fence Demo";
-    steps = "Zig-zag encryption";
-  }
-
-  if (type === "rowcol") {
-    result = "Matrix Transposition Demo";
-    steps = "Row-column logic";
-  }
-
-  if (type === "rsa") {
-    result = "Public Key (3,33)";
-    steps = "Asymmetric encryption";
-  }
-
-  if (type === "diffie") {
-    result = "Shared Key: 2";
-    steps = "Key exchange";
-  }
-
-  document.getElementById("result").innerText = result;
-  document.getElementById("steps").innerText = steps;
-}
-
-function checkAnswer() {
-  let user = document.getElementById("result").innerText;
-
-  if (user === correctAnswer) {
-    score += 10;
-    streak++;
-    document.getElementById("feedback").innerText = "✅ Correct!";
-  } else {
-    streak = 0;
-    document.getElementById("feedback").innerText = "❌ Try again!";
-  }
-
-  document.getElementById("score").innerText = score;
-  document.getElementById("streak").innerText = streak;
-
-  newChallenge();
-}
-
-newChallenge();
-</script>
+</body>
+</html>
