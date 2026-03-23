@@ -9,7 +9,7 @@ body {
   background: #1e293b;
   padding: 20px;
   border-radius: 10px;
-  width: 320px;
+  width: 340px;
   margin: auto;
   margin-top: 30px;
 }
@@ -24,7 +24,8 @@ input {
 
 button {
   padding: 10px 15px;
-  background: #22c55e;
+  margin: 5px;
+  background: #22c553;
   border: none;
   color: white;
   border-radius: 5px;

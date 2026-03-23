@@ -11,17 +11,29 @@
 <p>Crack the cipher and score points!</p>
 
 <div class="game-box">
+
   <h3 id="question">Loading...</h3>
 
-  <input id="answer" placeholder="Enter encrypted text">
+  <!-- HINT SYSTEM -->
+  <p id="hint">💡 Hint: ???</p>
+
+  <button onclick="showHint()">Show Hint (-5 pts)</button>
+  <button onclick="skipQuestion()">Skip</button>
+
+  <br><br>
+
+  <input id="answer" placeholder="Enter answer">
 
   <button onclick="checkAnswer()">Submit</button>
 
   <p id="feedback"></p>
 
   <h4>🏆 Score: <span id="score">0</span></h4>
+  <h4>🔥 Streak: <span id="streak">0</span></h4>
+
 </div>
 
+<!-- Cipher files -->
 <script src="ciphers/caesar.js"></script>
 <script src="ciphers/vigenere.js"></script>
 <script src="ciphers/railfence.js"></script>
@@ -29,6 +41,7 @@
 <script src="ciphers/rsa.js"></script>
 <script src="ciphers/diffie.js"></script>
 
+<!-- Main script -->
 <script src="script.js"></script>
 
 </body>

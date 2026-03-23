@@ -2,7 +2,6 @@ function generateMatrix(key) {
   key = key.toUpperCase().replace(/J/g, "I");
   let seen = new Set();
   let matrix = [];
-
   let alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
 
   key += alphabet;
@@ -23,11 +22,9 @@ function generateMatrix(key) {
 }
 
 function findPos(grid, char) {
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 5; j++) {
+  for (let i = 0; i < 5; i++)
+    for (let j = 0; j < 5; j++)
       if (grid[i][j] === char) return [i, j];
-    }
-  }
 }
 
 function playfairEncrypt(text, key) {
@@ -42,9 +39,7 @@ function playfairEncrypt(text, key) {
     if (a === b) {
       pairs.push([a, "X"]);
       i--;
-    } else {
-      pairs.push([a, b]);
-    }
+    } else pairs.push([a, b]);
   }
 
   let result = "";
