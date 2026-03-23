@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crypto Visual Lab</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      font-family: Arial;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      margin: auto;
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 8px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+
+    .output {
+      margin-top: 15px;
+      padding: 10px;
+      background: #0f172a;
+      border-radius: 6px;
+    }
+
+    .steps {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🔐 Crypto Visual Lab</h1>
+<p>Learn encryption step-by-step</p>
+
+<div class="card">
+
+<select id="cipher">
+  <option value="caesar">Caesar Cipher</option>
+  <option value="vigenere">Vigenère Cipher</option>
+  <option value="rail">Rail Fence</option>
+</select>
+
+<input id="text" placeholder="Enter text">
+<input id="key" placeholder="Enter key">
+
+<button onclick="process()">Encrypt</button>
+
+<div class="output">
+  <b>Result:</b>
+  <p id="result"></p>
+</div>
+
+<div class="steps" id="steps"></div>
+
+</div>
+
+<script>
+function process() {
+  let type = document.getElementById("cipher").value;
+  let text = document.getElementById("text").value;
+  let key = document.getElementById("key").value;
+  let result = "";
+  let steps = "";
+
+  // CAESAR
+  if (type === "caesar") {
+    let shift = parseInt(key) || 0;
+
+    for (let i = 0; i < text.length; i++) {
+      let c = text.charCodeAt(i);
+
+      if (c >= 65 && c <= 90) {
+        let newChar = String.fromCharCode((c - 65 + shift) % 26 + 65);
+        result += newChar;
+        steps += text[i] + " → " + newChar + " (+" + shift + ")<br>";
+      } 
+      else if (c >= 97 && c <= 122) {
+        let newChar = String.fromCharCode((c - 97 + shift) % 26 + 97);
+        result += newChar;
+        steps += text[i] + " → " + newChar + " (+" + shift + ")<br>";
+      } 
+      else {
+        result += text[i];
+      }
+    }
+  }
+
+  // VIGENERE
+  if (type === "vigenere") {
+    key = key.toLowerCase();
+    let j = 0;
+
+    for (let i = 0; i < text.length; i++) {
+      if (text[i].match(/[a-z]/i)) {
+        let shift = key.charCodeAt(j % key.length) - 97;
+        let base = text[i] === text[i].toUpperCase() ? 65 : 97;
+
+        let newChar = String.fromCharCode(
+          (text.charCodeAt(i) - base + shift) % 26 + base
+        );
+
+        result += newChar;
+        steps += text[i] + " → " + newChar + " (shift " + shift + ")<br>";
+        j++;
+      } else {
+        result += text[i];
+      }
+    }
+  }
+
+  // RAIL FENCE
+  if (type === "rail") {
+    let rails = parseInt(key) || 2;
+    let fence = Array.from({ length: rails }, () => []);
+
+    let dir = 1, row = 0;
+
+    for (let char of text) {
+      fence[row].push(char);
+      row += dir;
+
+      if (row === 0 || row === rails - 1) dir *= -1;
+    }
+
+    result = fence.flat().join("");
+
+    steps = "Zig-zag pattern used across " + rails + " rails.";
+  }
+
+  document.getElementById("result").innerText = result;
+  document.getElementById("steps").innerHTML = steps;
+}
+</script>
+
+</body>
+</html>
