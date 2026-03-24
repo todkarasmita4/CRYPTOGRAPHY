@@ -5,8 +5,9 @@ function railFenceEncrypt(text, rails) {
   for (let char of text) {
     fence[row].push(char);
     row += dir;
+
     if (row === 0 || row === rails - 1) dir *= -1;
   }
 
-  return fence.flat().join("");
+  return fence.flat().join('');
 }

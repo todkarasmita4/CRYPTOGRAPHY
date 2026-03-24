@@ -1,100 +1,7 @@
-let score = 0;
-let streak = 0;
-let correctAnswer = "";
-let currentHint = "";
-
-function newQuestion() {
-  let type = Math.floor(Math.random() * 6);
-
-  if (type === 0) {
-    let word = "HELLO";
-    document.getElementById("question").innerText =
-      "Caesar (key=3): " + word;
-    correctAnswer = caesarEncrypt(word, 3);
-    currentHint = "Shift letters by 3";
-  }
-
-  if (type === 1) {
-    let word = "WORLD";
-    document.getElementById("question").innerText =
-      "Vigenere (key=KEY): " + word;
-    correctAnswer = vigenereEncrypt(word, "KEY");
-    currentHint = "Use repeating key";
-  }
-
-  if (type === 2) {
-    let word = "CRYPTO";
-    document.getElementById("question").innerText =
-      "Rail Fence (2 rails): " + word;
-    correctAnswer = railFenceEncrypt(word, 2);
-    currentHint = "Zig-zag pattern";
-  }
-
-  if (type === 3) {
-    let word = "SECURITY";
-    document.getElementById("question").innerText =
-      "Playfair (key=KEY): " + word;
-    correctAnswer = playfairEncrypt(word, "KEY");
-    currentHint = "5x5 matrix";
-  }
-
-  if (type === 4) {
-    document.getElementById("question").innerText =
-      "RSA: M=5, p=3, q=11, e=3";
-    correctAnswer = rsaEncrypt(5, 3, 11, 3).toString();
-    currentHint = "M^e mod n";
-  }
-
-  if (type === 5) {
-    document.getElementById("question").innerText =
-      "Diffie-Hellman: p=23,g=5,a=6,b=15";
-    correctAnswer = diffieHellman(23, 5, 6, 15).toString();
-    currentHint = "Shared key formula";
-  }
-
-  document.getElementById("hint").innerText = "💡 Hint: ???";
-}
-
-function showHint() {
-  document.getElementById("hint").innerText = "💡 Hint: " + currentHint;
-  score = Math.max(0, score - 5);
-  document.getElementById("score").innerText = score;
-}
-
-function skipQuestion() {
-  streak = 0;
-  document.getElementById("streak").innerText = streak;
-  newQuestion();
-}
-
-function checkAnswer() {
-  let user = document.getElementById("answer").value.toUpperCase();
-
-  if (user === correctAnswer.toUpperCase()) {
-    score += 10;
-    streak++;
-    document.getElementById("feedback").innerText = "✅ Correct!";
-  } else {
-    streak = 0;
-    document.getElementById("feedback").innerText =
-      "❌ Wrong! Correct: " + correctAnswer;
-  }
-
-  document.getElementById("score").innerText = score;
-  document.getElementById("streak").innerText = streak;
-
-  document.getElementById("answer").value = "";
-  newQuestion();
-}
-
-/* ========================= */
-/* SIMULATION FUNCTION */
-/* ========================= */
-
-function runSimulation() {
-  let type = document.getElementById("simCipher").value;
-  let text = document.getElementById("simText").value;
-  let key = document.getElementById("simKey").value;
+function runCipher() {
+  let type = document.getElementById("cipherSelect").value;
+  let text = document.getElementById("inputText").value;
+  let key = document.getElementById("inputKey").value;
   let result = "";
 
   if (type === "caesar") {
@@ -123,7 +30,74 @@ function runSimulation() {
     result = diffieHellman(p, g, a, b);
   }
 
-  document.getElementById("simResult").innerText = result;
+  document.getElementById("output").innerText = result;
 }
 
-window.onload = newQuestion;
+/* INFO SECTION */
+
+function showInfo() {
+  let type = document.getElementById("cipherSelect").value;
+
+  if (type === "caesar") {
+    setInfo(
+      "Simple substitution cipher shifting letters.",
+      "Shift each letter by key value",
+      "C = (P + K) mod 26",
+      "Basic encryption, teaching"
+    );
+  }
+
+  if (type === "vigenere") {
+    setInfo(
+      "Polyalphabetic cipher using a keyword.",
+      "Repeat key and shift letters",
+      "Ci = (Pi + Ki) mod 26",
+      "Secure text encryption"
+    );
+  }
+
+  if (type === "rail") {
+    setInfo(
+      "Transposition cipher in zig-zag pattern.",
+      "Write in rails and read row-wise",
+      "Pattern-based rearrangement",
+      "Message obfuscation"
+    );
+  }
+
+  if (type === "playfair") {
+    setInfo(
+      "Digraph substitution cipher.",
+      "Use 5x5 matrix and encrypt pairs",
+      "Pair transformation rules",
+      "Military encryption"
+    );
+  }
+
+  if (type === "rsa") {
+    setInfo(
+      "Asymmetric encryption algorithm.",
+      "Generate keys and apply modular exponentiation",
+      "C = M^e mod n",
+      "Secure communication"
+    );
+  }
+
+  if (type === "diffie") {
+    setInfo(
+      "Key exchange method.",
+      "Generate shared secret key",
+      "K = g^(ab) mod p",
+      "Secure key exchange"
+    );
+  }
+}
+
+function setInfo(desc, steps, formula, app) {
+  document.getElementById("description").innerText = desc;
+  document.getElementById("steps").innerText = steps;
+  document.getElementById("formula").innerText = formula;
+  document.getElementById("applications").innerText = app;
+}
+
+window.onload = showInfo;
