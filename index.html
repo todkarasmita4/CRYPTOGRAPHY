@@ -11,24 +11,24 @@
 
 <header>
   <h1>CipherSphere</h1>
-  <button id="toggle">☾</button>
+  <button id="toggle">🌙</button>
 </header>
 
 <section class="hero">
   <h2>Cryptography, Reimagined</h2>
-  <p>Where logic meets design</p>
+  <p>Elegant. Interactive. Understandable.</p>
 </section>
 
 <section class="cards">
 
   <div class="card" onclick="openLab('caesar')">
-    <h3>Caesar</h3>
+    <h3>Caesar Cipher</h3>
     <span>Shift Cipher</span>
   </div>
 
   <div class="card" onclick="openLab('vigenere')">
-    <h3>Vigenère</h3>
-    <span>Polyalphabetic</span>
+    <h3>Vigenère Cipher</h3>
+    <span>Keyword Cipher</span>
   </div>
 
   <div class="card" onclick="openLab('rail')">
@@ -37,8 +37,8 @@
   </div>
 
   <div class="card" onclick="openLab('playfair')">
-    <h3>Playfair</h3>
-    <span>Matrix Cipher</span>
+    <h3>Playfair Cipher</h3>
+    <span>Matrix Based</span>
   </div>
 
 </section>
@@ -51,8 +51,11 @@
 
     <h2 id="labTitle"></h2>
 
+    <h4>Description</h4>
     <p id="desc"></p>
-    <p id="extra"></p>
+
+    <h4>Steps</h4>
+    <ol id="steps"></ol>
 
     <input id="text" placeholder="Enter text">
     <input id="key" placeholder="Enter key">
