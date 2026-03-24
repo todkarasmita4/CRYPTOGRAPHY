@@ -1,74 +1,58 @@
-const cipherData = {
-  caesar: ["Caesar Cipher","Shift letters","C=(P+K)mod26","Basic encryption"],
-  vigenere: ["Vigenere Cipher","Repeat key","Ci=(Pi+Ki)mod26","Secure text"],
-  rail: ["Rail Fence","Zigzag","Rearrangement","Obfuscation"],
-  playfair: ["Playfair","5x5 matrix","Pair rules","Military"],
-  rsa: ["RSA","Mod exponentiation","C=M^e mod n","Secure web"],
-  diffie: ["Diffie-Hellman","Key exchange","g^(ab) mod p","Networking"]
+const data = {
+  caesar: ["Caesar Cipher","Shifts letters","C=(P+K) mod 26","Used in ancient Rome"],
+  vigenere: ["Vigenere Cipher","Keyword-based shift","Ci=(Pi+Ki) mod 26","Stronger than Caesar"],
+  rail: ["Rail Fence","Zig-zag writing","Rearrangement","Used in puzzles"],
+  playfair: ["Playfair","Pair encryption","Matrix 5x5","Military encryption"],
+  rsa: ["RSA","Public key crypto","C=M^e mod n","Secure web"],
+  diffie: ["Diffie-Hellman","Key exchange","g^(ab) mod p","Secure communication"]
 };
 
-/* Populate dropdown */
+/* Dropdown */
 window.onload = () => {
-  let select = document.getElementById("cipherSelect");
-  for (let key in cipherData) {
-    let opt = document.createElement("option");
-    opt.value = key;
-    opt.textContent = cipherData[key][0];
-    select.appendChild(opt);
+  let sel = document.getElementById("cipher");
+  for (let k in data) {
+    let o = document.createElement("option");
+    o.value = k;
+    o.textContent = data[k][0];
+    sel.appendChild(o);
   }
 };
 
-/* DARK MODE */
-function toggleMode() {
+/* THEME */
+document.getElementById("themeToggle").onclick = () => {
   document.body.classList.toggle("light");
+};
+
+/* PANEL */
+function openPanel(type){
+  let p = document.getElementById("panel");
+  p.classList.remove("hidden");
+
+  document.getElementById("pTitle").innerText = data[type][0];
+  document.getElementById("pDesc").innerText = data[type][1];
+  document.getElementById("pSteps").innerText = data[type][1];
+  document.getElementById("pFormula").innerText = data[type][2];
+  document.getElementById("pApp").innerText = data[type][3];
 }
 
-/* NAVIGATION */
-function openInfo(type) {
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("infoPage").classList.remove("hidden");
-
-  let d = cipherData[type];
-
-  document.getElementById("infoTitle").innerText = d[0];
-  document.getElementById("description").innerText = d[1];
-  document.getElementById("steps").innerText = d[1];
-  document.getElementById("formula").innerText = d[2];
-  document.getElementById("applications").innerText = d[3];
+function closePanel(){
+  document.getElementById("panel").classList.add("hidden");
 }
 
-function goHome() {
-  document.getElementById("home").classList.remove("hidden");
-  document.getElementById("infoPage").classList.add("hidden");
-}
+/* SIMULATOR */
+function run(mode){
+  let type = document.getElementById("cipher").value;
+  let text = document.getElementById("text").value;
+  let key = document.getElementById("key").value;
 
-/* SIMULATION */
-function runCipher() {
-  let type = document.getElementById("cipherSelect").value;
-  let mode = document.getElementById("mode").value;
-  let text = document.getElementById("inputText").value;
-  let key = document.getElementById("inputKey").value;
+  let out="";
 
-  let result = "";
+  if(type==="caesar") out = mode==="enc"?caesarEncrypt(text,+key):caesarDecrypt(text,+key);
+  if(type==="vigenere") out = mode==="enc"?vigenereEncrypt(text,key):vigenereDecrypt(text,key);
+  if(type==="rail") out = mode==="enc"?railFenceEncrypt(text,+key):railFenceDecrypt(text,+key);
+  if(type==="playfair") out = mode==="enc"?playfairEncrypt(text,key):playfairDecrypt(text,key);
+  if(type==="rsa"){ let [m,p,q,e]=key.split(",").map(Number); out=rsaEncrypt(m,p,q,e);}
+  if(type==="diffie"){ let [p,g,a,b]=key.split(",").map(Number); out=diffieHellman(p,g,a,b);}
 
-  try {
-    if(type==="caesar") result = mode==="enc"?caesarEncrypt(text,+key):caesarDecrypt(text,+key);
-    if(type==="vigenere") result = mode==="enc"?vigenereEncrypt(text,key):vigenereDecrypt(text,key);
-    if(type==="rail") result = mode==="enc"?railFenceEncrypt(text,+key):railFenceDecrypt(text,+key);
-    if(type==="playfair") result = mode==="enc"?playfairEncrypt(text,key):playfairDecrypt(text,key);
-    if(type==="rsa"){
-      let [m,p,q,e]=key.split(",").map(Number);
-      result = rsaEncrypt(m,p,q,e);
-    }
-    if(type==="diffie"){
-      let [p,g,a,b]=key.split(",").map(Number);
-      result = diffieHellman(p,g,a,b);
-    }
-
-    document.getElementById("output").innerText = result;
-    document.getElementById("status").innerText = "✔ Done";
-
-  } catch {
-    document.getElementById("status").innerText = "⚠ Check input";
-  }
+  document.getElementById("output").innerText = out;
 }

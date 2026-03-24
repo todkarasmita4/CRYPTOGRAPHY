@@ -7,69 +7,59 @@
 
 <body>
 
-<nav>
-  <h2>🔐 CipherSphere</h2>
-  <button onclick="toggleMode()">🌗</button>
-</nav>
+<header>
+  <h1>CipherSphere</h1>
+  <button id="themeToggle">🌙</button>
+</header>
 
-<!-- HOME PAGE -->
-<section id="home">
+<main>
 
-  <div class="hero">
-    <h1>Cryptography Virtual Lab</h1>
-    <p>Interactive simulation of encryption techniques</p>
-  </div>
+  <!-- HERO -->
+  <section class="hero">
+    <h2>Cryptography Virtual Lab</h2>
+    <p>Visualize • Simulate • Learn</p>
+  </section>
 
-  <!-- CIPHER CARDS -->
-  <h2 class="section-title">Ciphering Techniques</h2>
-
-  <div class="cards">
-    <div class="card" onclick="openInfo('caesar')">Caesar</div>
-    <div class="card" onclick="openInfo('vigenere')">Vigenere</div>
-    <div class="card" onclick="openInfo('rail')">Rail Fence</div>
-    <div class="card" onclick="openInfo('playfair')">Playfair</div>
-    <div class="card" onclick="openInfo('rsa')">RSA</div>
-    <div class="card" onclick="openInfo('diffie')">Diffie</div>
-  </div>
+  <!-- CARDS -->
+  <section class="grid">
+    <div class="card" onclick="openPanel('caesar')">Caesar</div>
+    <div class="card" onclick="openPanel('vigenere')">Vigenère</div>
+    <div class="card" onclick="openPanel('rail')">Rail Fence</div>
+    <div class="card" onclick="openPanel('playfair')">Playfair</div>
+    <div class="card" onclick="openPanel('rsa')">RSA</div>
+    <div class="card" onclick="openPanel('diffie')">Diffie</div>
+  </section>
 
   <!-- SIMULATOR -->
-  <div class="simulator">
-    <h2>🧪 Simulator</h2>
+  <section class="simulator">
+    <h3>Simulator</h3>
 
-    <select id="cipherSelect"></select>
+    <select id="cipher"></select>
 
-    <select id="mode">
-      <option value="enc">Encrypt</option>
-      <option value="dec">Decrypt</option>
-    </select>
+    <div class="inputs">
+      <input id="text" placeholder="Enter text">
+      <input id="key" placeholder="Enter key">
+    </div>
 
-    <input id="inputText" placeholder="Enter text">
-    <input id="inputKey" placeholder="Enter key / parameters">
+    <div class="buttons">
+      <button onclick="run('enc')">Encrypt</button>
+      <button onclick="run('dec')">Decrypt</button>
+    </div>
 
-    <button onclick="runCipher()">Run</button>
+    <div class="output" id="output">Output will appear here</div>
+  </section>
 
-    <p id="output"></p>
-    <div id="status"></div>
-  </div>
+</main>
 
-</section>
-
-<!-- INFO PAGE -->
-<section id="infoPage" class="hidden">
-  <button onclick="goHome()">⬅ Back</button>
-
-  <h1 id="infoTitle"></h1>
-  <p id="description"></p>
-
-  <h3>Steps</h3>
-  <p id="steps"></p>
-
-  <h3>Formula</h3>
-  <p id="formula"></p>
-
-  <h3>Applications</h3>
-  <p id="applications"></p>
-</section>
+<!-- SIDE PANEL -->
+<div id="panel" class="panel hidden">
+  <button onclick="closePanel()">✖</button>
+  <h2 id="pTitle"></h2>
+  <p id="pDesc"></p>
+  <p id="pSteps"></p>
+  <p id="pFormula"></p>
+  <p id="pApp"></p>
+</div>
 
 <script src="ciphers/caesar.js"></script>
 <script src="ciphers/vigenere.js"></script>
