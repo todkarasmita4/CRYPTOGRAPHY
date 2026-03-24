@@ -9,56 +9,68 @@
 
 <header>
   <h1>CipherSphere</h1>
-  <button id="themeToggle">🌙</button>
+  <button id="toggle">☾</button>
 </header>
 
-<main>
+<section class="hero">
+  <h2>Cryptography, Reimagined</h2>
+  <p>Explore encryption as an experience</p>
+</section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h2>Cryptography Virtual Lab</h2>
-    <p>Visualize • Simulate • Learn</p>
-  </section>
+<section class="cards">
 
-  <!-- CARDS -->
-  <section class="grid">
-    <div class="card" onclick="openPanel('caesar')">Caesar</div>
-    <div class="card" onclick="openPanel('vigenere')">Vigenère</div>
-    <div class="card" onclick="openPanel('rail')">Rail Fence</div>
-    <div class="card" onclick="openPanel('playfair')">Playfair</div>
-    <div class="card" onclick="openPanel('rsa')">RSA</div>
-    <div class="card" onclick="openPanel('diffie')">Diffie</div>
-  </section>
+  <div class="card" onclick="openLab('caesar')">
+    <h3>Caesar</h3>
+    <p>Shift-based encryption</p>
+  </div>
 
-  <!-- SIMULATOR -->
-  <section class="simulator">
-    <h3>Simulator</h3>
+  <div class="card" onclick="openLab('vigenere')">
+    <h3>Vigenère</h3>
+    <p>Keyword cipher</p>
+  </div>
 
-    <select id="cipher"></select>
+  <div class="card" onclick="openLab('rail')">
+    <h3>Rail Fence</h3>
+    <p>Zig-zag pattern</p>
+  </div>
 
-    <div class="inputs">
-      <input id="text" placeholder="Enter text">
-      <input id="key" placeholder="Enter key">
-    </div>
+  <div class="card" onclick="openLab('playfair')">
+    <h3>Playfair</h3>
+    <p>Pair encryption</p>
+  </div>
+
+  <div class="card" onclick="openLab('rsa')">
+    <h3>RSA</h3>
+    <p>Public key system</p>
+  </div>
+
+  <div class="card" onclick="openLab('diffie')">
+    <h3>Diffie</h3>
+    <p>Key exchange</p>
+  </div>
+
+</section>
+
+<!-- MODAL LAB -->
+<div id="lab" class="lab hidden">
+
+  <div class="lab-box">
+    <span onclick="closeLab()">✕</span>
+
+    <h2 id="labTitle"></h2>
+
+    <input id="text" placeholder="Enter text">
+    <input id="key" placeholder="Enter key">
 
     <div class="buttons">
       <button onclick="run('enc')">Encrypt</button>
       <button onclick="run('dec')">Decrypt</button>
     </div>
 
-    <div class="output" id="output">Output will appear here</div>
-  </section>
+    <div id="output"></div>
 
-</main>
+  </div>
 
-<!-- SIDE PANEL -->
-<div id="panel" class="panel hidden">
-  <button onclick="closePanel()">✖</button>
-  <h2 id="pTitle"></h2>
-  <p id="pDesc"></p>
-  <p id="pSteps"></p>
-  <p id="pFormula"></p>
-  <p id="pApp"></p>
 </div>
 
 <script src="ciphers/caesar.js"></script>
