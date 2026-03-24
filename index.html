@@ -7,6 +7,8 @@
 
 <body>
 
+<div class="bg"></div>
+
 <header>
   <h1>CipherSphere</h1>
   <button id="toggle">☾</button>
@@ -14,50 +16,43 @@
 
 <section class="hero">
   <h2>Cryptography, Reimagined</h2>
-  <p>Explore encryption as an experience</p>
+  <p>Where logic meets design</p>
 </section>
 
 <section class="cards">
 
   <div class="card" onclick="openLab('caesar')">
     <h3>Caesar</h3>
-    <p>Shift-based encryption</p>
+    <span>Shift Cipher</span>
   </div>
 
   <div class="card" onclick="openLab('vigenere')">
     <h3>Vigenère</h3>
-    <p>Keyword cipher</p>
+    <span>Polyalphabetic</span>
   </div>
 
   <div class="card" onclick="openLab('rail')">
     <h3>Rail Fence</h3>
-    <p>Zig-zag pattern</p>
+    <span>Transposition</span>
   </div>
 
   <div class="card" onclick="openLab('playfair')">
     <h3>Playfair</h3>
-    <p>Pair encryption</p>
-  </div>
-
-  <div class="card" onclick="openLab('rsa')">
-    <h3>RSA</h3>
-    <p>Public key system</p>
-  </div>
-
-  <div class="card" onclick="openLab('diffie')">
-    <h3>Diffie</h3>
-    <p>Key exchange</p>
+    <span>Matrix Cipher</span>
   </div>
 
 </section>
 
-<!-- MODAL LAB -->
+<!-- MODAL -->
 <div id="lab" class="lab hidden">
-
   <div class="lab-box">
-    <span onclick="closeLab()">✕</span>
+
+    <span class="close" onclick="closeLab()">✕</span>
 
     <h2 id="labTitle"></h2>
+
+    <p id="desc"></p>
+    <p id="extra"></p>
 
     <input id="text" placeholder="Enter text">
     <input id="key" placeholder="Enter key">
@@ -70,15 +65,12 @@
     <div id="output"></div>
 
   </div>
-
 </div>
 
 <script src="ciphers/caesar.js"></script>
 <script src="ciphers/vigenere.js"></script>
 <script src="ciphers/railfence.js"></script>
 <script src="ciphers/playfair.js"></script>
-<script src="ciphers/rsa.js"></script>
-<script src="ciphers/diffie.js"></script>
 <script src="script.js"></script>
 
 </body>
