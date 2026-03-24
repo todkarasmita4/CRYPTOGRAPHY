@@ -9,28 +9,34 @@
 
 <nav>
   <h2>🔐 CipherSphere</h2>
+  <button onclick="toggleMode()">🌗</button>
 </nav>
 
-<section class="hero">
-  <h1>Cryptography Virtual Lab</h1>
-  <p>Explore encryption & decryption in an interactive way</p>
-</section>
+<!-- HOME PAGE -->
+<section id="home">
 
-<div class="main">
+  <div class="hero">
+    <h1>Cryptography Virtual Lab</h1>
+    <p>Interactive simulation of encryption techniques</p>
+  </div>
+
+  <!-- CIPHER CARDS -->
+  <h2 class="section-title">Ciphering Techniques</h2>
+
+  <div class="cards">
+    <div class="card" onclick="openInfo('caesar')">Caesar</div>
+    <div class="card" onclick="openInfo('vigenere')">Vigenere</div>
+    <div class="card" onclick="openInfo('rail')">Rail Fence</div>
+    <div class="card" onclick="openInfo('playfair')">Playfair</div>
+    <div class="card" onclick="openInfo('rsa')">RSA</div>
+    <div class="card" onclick="openInfo('diffie')">Diffie</div>
+  </div>
 
   <!-- SIMULATOR -->
-  <div class="card">
-
+  <div class="simulator">
     <h2>🧪 Simulator</h2>
 
-    <select id="cipherSelect" onchange="showInfo()">
-      <option value="caesar">Caesar</option>
-      <option value="vigenere">Vigenere</option>
-      <option value="rail">Rail Fence</option>
-      <option value="playfair">Playfair</option>
-      <option value="rsa">RSA</option>
-      <option value="diffie">Diffie-Hellman</option>
-    </select>
+    <select id="cipherSelect"></select>
 
     <select id="mode">
       <option value="enc">Encrypt</option>
@@ -40,35 +46,30 @@
     <input id="inputText" placeholder="Enter text">
     <input id="inputKey" placeholder="Enter key / parameters">
 
-    <button onclick="runCipher()">Run Simulation</button>
+    <button onclick="runCipher()">Run</button>
 
-    <div class="result-box">
-      <p id="output">Result will appear here...</p>
-      <div id="status"></div>
-    </div>
-
+    <p id="output"></p>
+    <div id="status"></div>
   </div>
 
-  <!-- INFO -->
-  <div class="card info">
+</section>
 
-    <h2>📚 Cipher Info</h2>
+<!-- INFO PAGE -->
+<section id="infoPage" class="hidden">
+  <button onclick="goHome()">⬅ Back</button>
 
-    <p id="description"></p>
+  <h1 id="infoTitle"></h1>
+  <p id="description"></p>
 
-    <p><b>Steps:</b><br><span id="steps"></span></p>
+  <h3>Steps</h3>
+  <p id="steps"></p>
 
-    <p><b>Formula:</b><br><span id="formula"></span></p>
+  <h3>Formula</h3>
+  <p id="formula"></p>
 
-    <p><b>Applications:</b><br><span id="applications"></span></p>
-
-  </div>
-
-</div>
-
-<footer>
-  <p>Built for CNS Lab • CipherSphere</p>
-</footer>
+  <h3>Applications</h3>
+  <p id="applications"></p>
+</section>
 
 <script src="ciphers/caesar.js"></script>
 <script src="ciphers/vigenere.js"></script>
