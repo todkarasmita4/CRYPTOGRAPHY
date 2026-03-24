@@ -1,50 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Crypto Lab Simulator</title>
+  <title>CipherSphere</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>🔐 Cryptography Virtual Lab</h1>
-<p>Select a cipher → Enter values → Simulate encryption</p>
+<nav>
+  <h2>🔐 CipherSphere</h2>
+</nav>
 
-<div class="container">
+<section class="hero">
+  <h1>Cryptography Virtual Lab</h1>
+  <p>Explore encryption & decryption in an interactive way</p>
+</section>
 
-  <!-- CIPHER SELECT -->
-  <select id="cipherSelect" onchange="showInfo()">
-    <option value="caesar">Caesar Cipher</option>
-    <option value="vigenere">Vigenere Cipher</option>
-    <option value="rail">Rail Fence Cipher</option>
-    <option value="playfair">Playfair Cipher</option>
-    <option value="rsa">RSA</option>
-    <option value="diffie">Diffie-Hellman</option>
-  </select>
+<div class="main">
 
-  <!-- INPUTS -->
-  <input id="inputText" placeholder="Enter plaintext / message">
-  <input id="inputKey" placeholder="Enter key / parameters">
+  <!-- SIMULATOR -->
+  <div class="card">
 
-  <button onclick="runCipher()">Run Simulation</button>
+    <h2>🧪 Simulator</h2>
 
-  <h3>Result:</h3>
-  <p id="output"></p>
+    <select id="cipherSelect" onchange="showInfo()">
+      <option value="caesar">Caesar</option>
+      <option value="vigenere">Vigenere</option>
+      <option value="rail">Rail Fence</option>
+      <option value="playfair">Playfair</option>
+      <option value="rsa">RSA</option>
+      <option value="diffie">Diffie-Hellman</option>
+    </select>
 
-  <hr>
+    <select id="mode">
+      <option value="enc">Encrypt</option>
+      <option value="dec">Decrypt</option>
+    </select>
 
-  <!-- INFO SECTION -->
-  <div id="infoBox">
-    <h2>About Cipher</h2>
+    <input id="inputText" placeholder="Enter text">
+    <input id="inputKey" placeholder="Enter key / parameters">
+
+    <button onclick="runCipher()">Run Simulation</button>
+
+    <div class="result-box">
+      <p id="output">Result will appear here...</p>
+      <div id="status"></div>
+    </div>
+
+  </div>
+
+  <!-- INFO -->
+  <div class="card info">
+
+    <h2>📚 Cipher Info</h2>
+
     <p id="description"></p>
-    <p><b>Steps:</b> <span id="steps"></span></p>
-    <p><b>Formula:</b> <span id="formula"></span></p>
-    <p><b>Applications:</b> <span id="applications"></span></p>
+
+    <p><b>Steps:</b><br><span id="steps"></span></p>
+
+    <p><b>Formula:</b><br><span id="formula"></span></p>
+
+    <p><b>Applications:</b><br><span id="applications"></span></p>
+
   </div>
 
 </div>
 
-<!-- Scripts -->
+<footer>
+  <p>Built for CNS Lab • CipherSphere</p>
+</footer>
+
 <script src="ciphers/caesar.js"></script>
 <script src="ciphers/vigenere.js"></script>
 <script src="ciphers/railfence.js"></script>
