@@ -11,7 +11,7 @@ function newQuestion() {
     document.getElementById("question").innerText =
       "Caesar (key=3): " + word;
     correctAnswer = caesarEncrypt(word, 3);
-    currentHint = "Shift each letter forward by 3";
+    currentHint = "Shift letters by 3";
   }
 
   if (type === 1) {
@@ -19,7 +19,7 @@ function newQuestion() {
     document.getElementById("question").innerText =
       "Vigenere (key=KEY): " + word;
     correctAnswer = vigenereEncrypt(word, "KEY");
-    currentHint = "Use repeating key shifts";
+    currentHint = "Use repeating key";
   }
 
   if (type === 2) {
@@ -27,7 +27,7 @@ function newQuestion() {
     document.getElementById("question").innerText =
       "Rail Fence (2 rails): " + word;
     correctAnswer = railFenceEncrypt(word, 2);
-    currentHint = "Write in zig-zag and read row-wise";
+    currentHint = "Zig-zag pattern";
   }
 
   if (type === 3) {
@@ -35,21 +35,21 @@ function newQuestion() {
     document.getElementById("question").innerText =
       "Playfair (key=KEY): " + word;
     correctAnswer = playfairEncrypt(word, "KEY");
-    currentHint = "Use 5x5 matrix, I/J combined";
+    currentHint = "5x5 matrix";
   }
 
   if (type === 4) {
     document.getElementById("question").innerText =
       "RSA: M=5, p=3, q=11, e=3";
     correctAnswer = rsaEncrypt(5, 3, 11, 3).toString();
-    currentHint = "Use C = M^e mod n";
+    currentHint = "M^e mod n";
   }
 
   if (type === 5) {
     document.getElementById("question").innerText =
-      "Diffie-Hellman: p=23, g=5, a=6, b=15";
+      "Diffie-Hellman: p=23,g=5,a=6,b=15";
     correctAnswer = diffieHellman(23, 5, 6, 15).toString();
-    currentHint = "Compute shared key using powers mod p";
+    currentHint = "Shared key formula";
   }
 
   document.getElementById("hint").innerText = "💡 Hint: ???";
@@ -84,8 +84,46 @@ function checkAnswer() {
   document.getElementById("streak").innerText = streak;
 
   document.getElementById("answer").value = "";
-
   newQuestion();
+}
+
+/* ========================= */
+/* SIMULATION FUNCTION */
+/* ========================= */
+
+function runSimulation() {
+  let type = document.getElementById("simCipher").value;
+  let text = document.getElementById("simText").value;
+  let key = document.getElementById("simKey").value;
+  let result = "";
+
+  if (type === "caesar") {
+    result = caesarEncrypt(text, parseInt(key));
+  }
+
+  if (type === "vigenere") {
+    result = vigenereEncrypt(text, key);
+  }
+
+  if (type === "rail") {
+    result = railFenceEncrypt(text, parseInt(key));
+  }
+
+  if (type === "playfair") {
+    result = playfairEncrypt(text, key);
+  }
+
+  if (type === "rsa") {
+    let [m, p, q, e] = key.split(",").map(Number);
+    result = rsaEncrypt(m, p, q, e);
+  }
+
+  if (type === "diffie") {
+    let [p, g, a, b] = key.split(",").map(Number);
+    result = diffieHellman(p, g, a, b);
+  }
+
+  document.getElementById("simResult").innerText = result;
 }
 
 window.onload = newQuestion;
