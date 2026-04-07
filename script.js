@@ -1,95 +1,106 @@
-let current="";
+let current = "";
 
+/* DARK MODE */
 document.getElementById("toggle").onclick = () => {
   document.body.classList.toggle("light");
 };
 
+/* DATA + VISUALS */
 const data = {
   caesar: {
     title: "Caesar Cipher",
-    desc: "A substitution cipher where each letter is shifted by a fixed number.",
-    steps: [
-      "Choose a shift key",
-      "Convert letters to positions",
-      "Add key to each letter",
-      "Wrap around using modulo 26",
-      "Convert back to letters"
-    ]
+    desc: "Shift letters by fixed value.",
+    steps: ["Pick shift", "Shift letters", "Wrap mod 26"],
+    visual: () => "A → D, B → E, C → F",
+    fun: "Used by Caesar"
   },
 
   vigenere: {
     title: "Vigenère Cipher",
-    desc: "Uses a keyword to apply multiple Caesar shifts.",
-    steps: [
-      "Write the keyword repeatedly",
-      "Match keyword with plaintext",
-      "Shift each letter based on keyword",
-      "Combine results to get ciphertext"
-    ]
-  },
-
-  rail: {
-    title: "Rail Fence Cipher",
-    desc: "Zig-zag writing pattern encryption.",
-    steps: [
-      "Choose number of rails",
-      "Write text in zig-zag",
-      "Read row by row",
-      "Combine rows to get ciphertext"
-    ]
+    desc: "Keyword-based shifting.",
+    steps: ["Repeat key", "Add values", "Mod 26"],
+    visual: () => "HELLO + KEY → RIJVS",
+    fun: "Unbreakable once"
   },
 
   playfair: {
     title: "Playfair Cipher",
-    desc: "Encrypts pairs using a 5x5 matrix.",
-    steps: [
-      "Create 5x5 matrix using key",
-      "Split text into pairs",
-      "Apply Playfair rules",
-      "Same row → shift right",
-      "Same column → shift down",
-      "Rectangle → swap columns"
-    ]
+    desc: "Uses 5x5 matrix.",
+    steps: ["Create matrix", "Pair letters", "Apply rules"],
+    visual: () => "Matrix: KEYWORD → grid",
+    fun: "Used in WW1"
+  },
+
+  railfence: {
+    title: "Rail Fence",
+    desc: "Zigzag pattern cipher.",
+    steps: ["Write zigzag", "Read rows"],
+    visual: () => "Zigzag: H E L L O",
+    fun: "Very simple cipher"
+  },
+
+  rsa: {
+    title: "RSA",
+    desc: "Public key cryptography.",
+    steps: ["Choose primes", "Generate keys"],
+    visual: () => "Encrypt: c = m^e mod n",
+    fun: "Used in HTTPS"
+  },
+
+  diffie: {
+    title: "Diffie-Hellman",
+    desc: "Key exchange method.",
+    steps: ["Share base", "Compute keys"],
+    visual: () => "Shared secret generated",
+    fun: "Secure key exchange"
   }
 };
 
-function openLab(type){
+/* OPEN */
+function openInfo(type) {
   current = type;
-  document.getElementById("lab").classList.remove("hidden");
 
-  document.getElementById("labTitle").innerText = data[type].title;
-  document.getElementById("desc").innerText = data[type].desc;
+  document.querySelector(".cards").style.display = "none";
+  document.querySelector(".hero").style.display = "none";
 
-  let stepsList = document.getElementById("steps");
-  stepsList.innerHTML = "";
+  document.getElementById("infoPage").classList.remove("hidden");
 
-  data[type].steps.forEach(step => {
-    let li = document.createElement("li");
-    li.innerText = step;
-    stepsList.appendChild(li);
-  });
+  let d = data[type];
+
+  document.getElementById("title").innerText = d.title;
+  document.getElementById("desc").innerText = d.desc;
+  document.getElementById("fun").innerText = d.fun;
+
+  document.getElementById("steps").innerHTML =
+    d.steps.map(s => `<li>${s}</li>`).join("");
+
+  document.getElementById("visual").innerText = d.visual();
 }
 
-function closeLab(){
-  document.getElementById("lab").classList.add("hidden");
+/* BACK */
+function goBack() {
+  document.querySelector(".cards").style.display = "grid";
+  document.querySelector(".hero").style.display = "block";
+  document.getElementById("infoPage").classList.add("hidden");
 }
 
-function run(mode){
-  let text = document.getElementById("text").value;
-  let key = document.getElementById("key").value;
-  let out = "";
+/* RUN */
+function runEncrypt() {
+  let t = text.value;
+  let k = key.value;
 
-  if(current==="caesar")
-    out = mode==="enc"?caesarEncrypt(text,+key):caesarDecrypt(text,+key);
+  if (current === "caesar") output.innerText = caesarEncrypt(t, k);
+  if (current === "vigenere") output.innerText = vigenereEncrypt(t, k);
+  if (current === "railfence") output.innerText = railEncrypt(t, k);
+  if (current === "playfair") output.innerText = playfairEncrypt(t, k);
+}
 
-  if(current==="vigenere")
-    out = mode==="enc"?vigenereEncrypt(text,key):vigenereDecrypt(text,key);
+function runDecrypt() {
+  let t = text.value;
+  let k = key.value;
 
-  if(current==="rail")
-    out = mode==="enc"?railFenceEncrypt(text,+key):railFenceDecrypt(text,+key);
-
-  if(current==="playfair")
-    out = mode==="enc"?playfairEncrypt(text,key):playfairDecrypt(text,key);
-
-  document.getElementById("output").innerText = out;
+  if (current === "caesar") output.innerText = caesarDecrypt(t, k);
+  if (current === "vigenere") output.innerText = vigenereDecrypt(t, k);
+  if (current === "railfence") output.innerText = railDecrypt(t, k);
+  if (current === "playfair") output.innerText = playfairDecrypt(t, k);
 }

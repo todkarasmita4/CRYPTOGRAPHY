@@ -7,8 +7,6 @@
 
 <body>
 
-<div class="bg"></div>
-
 <header>
   <h1>CipherSphere</h1>
   <button id="toggle">🌙</button>
@@ -16,64 +14,55 @@
 
 <section class="hero">
   <h2>Cryptography, Reimagined</h2>
-  <p>Elegant. Interactive. Understandable.</p>
+  <p>Elegant. Interactive. Intelligent.</p>
 </section>
 
 <section class="cards">
-
-  <div class="card" onclick="openLab('caesar')">
-    <h3>Caesar Cipher</h3>
-    <span>Shift Cipher</span>
-  </div>
-
-  <div class="card" onclick="openLab('vigenere')">
-    <h3>Vigenère Cipher</h3>
-    <span>Keyword Cipher</span>
-  </div>
-
-  <div class="card" onclick="openLab('rail')">
-    <h3>Rail Fence</h3>
-    <span>Transposition</span>
-  </div>
-
-  <div class="card" onclick="openLab('playfair')">
-    <h3>Playfair Cipher</h3>
-    <span>Matrix Based</span>
-  </div>
-
+  <div class="card" onclick="openInfo('caesar')">Caesar</div>
+  <div class="card" onclick="openInfo('vigenere')">Vigenère</div>
+  <div class="card" onclick="openInfo('playfair')">Playfair</div>
+  <div class="card" onclick="openInfo('railfence')">Rail Fence</div>
+  <div class="card" onclick="openInfo('rsa')">RSA</div>
+  <div class="card" onclick="openInfo('diffie')">Diffie</div>
 </section>
 
-<!-- MODAL -->
-<div id="lab" class="lab hidden">
-  <div class="lab-box">
+<section id="infoPage" class="hidden">
+  <div class="glass">
 
-    <span class="close" onclick="closeLab()">✕</span>
+    <span class="back" onclick="goBack()">← Back</span>
 
-    <h2 id="labTitle"></h2>
-
-    <h4>Description</h4>
+    <h2 id="title"></h2>
     <p id="desc"></p>
 
-    <h4>Steps</h4>
-    <ol id="steps"></ol>
+    <h3>Steps</h3>
+    <ul id="steps"></ul>
 
+    <h3>Visualization</h3>
+    <div id="visual"></div>
+
+    <h3>Simulator</h3>
     <input id="text" placeholder="Enter text">
     <input id="key" placeholder="Enter key">
 
-    <div class="buttons">
-      <button onclick="run('enc')">Encrypt</button>
-      <button onclick="run('dec')">Decrypt</button>
+    <div class="btns">
+      <button onclick="runEncrypt()">Encrypt</button>
+      <button onclick="runDecrypt()">Decrypt</button>
     </div>
 
     <div id="output"></div>
 
+    <p id="fun"></p>
+
   </div>
-</div>
+</section>
 
 <script src="ciphers/caesar.js"></script>
 <script src="ciphers/vigenere.js"></script>
 <script src="ciphers/railfence.js"></script>
 <script src="ciphers/playfair.js"></script>
+<script src="ciphers/rsa.js"></script>
+<script src="ciphers/diffie.js"></script>
+
 <script src="script.js"></script>
 
 </body>
